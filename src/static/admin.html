@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarotaXBR Admin - Painel de Administração</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="admin-styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="fas fa-shield-alt"></i> GarotaXBR Admin
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Usuário</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt"></i> Entrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Admin Interface -->
+    <div id="adminInterface" style="display: none;">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h4><i class="fas fa-cogs"></i> GarotaXBR Admin</h4>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#dashboard" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#acompanhantes" onclick="showSection('acompanhantes')">
+                        <i class="fas fa-users"></i> Acompanhantes
+                    </a>
+                </li>
+                <li>
+                    <a href="#estados" onclick="showSection('estados')">
+                        <i class="fas fa-map"></i> Estados
+                    </a>
+                </li>
+                <li>
+                    <a href="#cidades" onclick="showSection('cidades')">
+                        <i class="fas fa-city"></i> Cidades
+                    </a>
+                </li>
+                <li>
+                    <a href="#fotos" onclick="showSection('fotos')">
+                        <i class="fas fa-images"></i> Fotos
+                    </a>
+                </li>
+                <li>
+                    <a href="#videos" onclick="showSection('videos')">
+                        <i class="fas fa-video"></i> Vídeos
+                    </a>
+                </li>
+                <li>
+                    <a href="#admins" onclick="showSection('admins')">
+                        <i class="fas fa-user-shield"></i> Administradores
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <button class="btn btn-outline-light btn-sm" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <div class="navbar-nav ms-auto">
+                        <span class="navbar-text">
+                            Bem-vindo, <strong id="adminUsername">Admin</strong>
+                        </span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="admin-section">
+                <div class="container-fluid">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total de Acompanhantes
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalAcompanhantes">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Total de Estados
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalEstados">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-map fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Total de Cidades
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalCidades">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-city fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Total de Fotos
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalFotos">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-images fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acompanhantes Section -->
+            <div id="acompanhantes" class="admin-section" style="display: none;">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-users"></i> Gerenciar Acompanhantes</h2>
+                        <button class="btn btn-primary" onclick="showAddAcompanhanteModal()">
+                            <i class="fas fa-plus"></i> Adicionar Acompanhante
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Idade</th>
+                                    <th>Cidade</th>
+                                    <th>Telefone</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acompanhantesTableBody">
+                                <!-- Dados serão carregados dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estados Section -->
+            <div id="estados" class="admin-section" style="display: none;">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-map"></i> Gerenciar Estados</h2>
+                        <button class="btn btn-primary" onclick="showAddEstadoModal()">
+                            <i class="fas fa-plus"></i> Adicionar Estado
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Sigla</th>
+                                    <th>Região</th>
+                                    <th>Total de Cidades</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="estadosTableBody">
+                                <!-- Dados serão carregados dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cidades Section -->
+            <div id="cidades" class="admin-section" style="display: none;">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-city"></i> Gerenciar Cidades</h2>
+                        <button class="btn btn-primary" onclick="showAddCidadeModal()">
+                            <i class="fas fa-plus"></i> Adicionar Cidade
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Estado</th>
+                                    <th>Total de Acompanhantes</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cidadesTableBody">
+                                <!-- Dados serão carregados dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outras seções (fotos, videos, admins) seriam implementadas de forma similar -->
+            <div id="fotos" class="admin-section" style="display: none;">
+                <div class="container-fluid">
+                    <h2><i class="fas fa-images"></i> Gerenciar Fotos</h2>
+                    <p>Funcionalidade em desenvolvimento...</p>
+                </div>
+            </div>
+
+            <div id="videos" class="admin-section" style="display: none;">
+                <div class="container-fluid">
+                    <h2><i class="fas fa-video"></i> Gerenciar Vídeos</h2>
+                    <p>Funcionalidade em desenvolvimento...</p>
+                </div>
+            </div>
+
+            <div id="admins" class="admin-section" style="display: none;">
+                <div class="container-fluid">
+                    <h2><i class="fas fa-user-shield"></i> Gerenciar Administradores</h2>
+                    <p>Funcionalidade em desenvolvimento...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html>
+

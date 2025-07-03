@@ -1,0 +1,327 @@
+/* Reset e configurações gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d1b69 50%, #8b1538 100%);
+    color: white;
+    min-height: 100vh;
+}
+
+/* Cores personalizadas */
+.text-pink {
+    color: #e91e63 !important;
+}
+
+.btn-pink {
+    background: linear-gradient(45deg, #e91e63, #ad1457);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-pink:hover {
+    background: linear-gradient(45deg, #ad1457, #e91e63);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+    color: white;
+}
+
+/* Header */
+.header-main {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid #e91e63;
+}
+
+.navbar-brand img {
+    filter: brightness(1.2);
+}
+
+.nav-link.btn {
+    margin: 0 5px;
+    border-radius: 25px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-link.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 80px 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 30px;
+    line-height: 1.2;
+}
+
+.hero-buttons .btn {
+    border-radius: 30px;
+    padding: 15px 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 10px;
+}
+
+/* Estados Section */
+.estados-section {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.estados-section .btn {
+    border-radius: 25px;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.estados-section .btn:hover {
+    background: rgba(233, 30, 99, 0.8);
+    border-color: #e91e63;
+    transform: translateY(-2px);
+}
+
+/* Main Content */
+.main-content {
+    padding: 60px 0;
+}
+
+.regiao-section {
+    margin-bottom: 80px;
+}
+
+.regiao-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 50px;
+    color: #e91e63;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.regiao-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(45deg, #e91e63, #ad1457);
+    border-radius: 2px;
+}
+
+.estado-group {
+    margin-bottom: 60px;
+}
+
+.estado-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Cidade Cards */
+.cidade-card {
+    background: linear-gradient(135deg, rgba(233, 30, 99, 0.8), rgba(173, 20, 87, 0.8));
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px 0;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cidade-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+    background: linear-gradient(135deg, rgba(233, 30, 99, 0.9), rgba(173, 20, 87, 0.9));
+}
+
+.cidade-card h5 {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.cidade-card .badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.cidade-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Ver Todas Button */
+.ver-todas-btn {
+    background: linear-gradient(45deg, #4a148c, #7b1fa2);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    display: block;
+}
+
+.ver-todas-btn:hover {
+    background: linear-gradient(45deg, #7b1fa2, #4a148c);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
+    color: white;
+}
+
+/* Footer */
+.footer-main {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 60px 0 30px;
+    margin-top: 80px;
+    border-top: 2px solid #e91e63;
+}
+
+.footer-main h4 {
+    color: #e91e63;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+.footer-main p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Modal customizado */
+.modal-content {
+    background: linear-gradient(135deg, #1a1a1a, #2d1b69);
+    border: 2px solid #e91e63;
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e91e63;
+}
+
+.modal-footer {
+    border-top: 1px solid #e91e63;
+}
+
+/* Dropdown customizado */
+.dropdown-menu {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #e91e63;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(233, 30, 99, 0.8);
+    color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .regiao-title {
+        font-size: 2rem;
+    }
+    
+    .estado-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-buttons .btn {
+        display: block;
+        margin: 10px auto;
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .cidade-card {
+        margin: 5px 0;
+    }
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.regiao-section {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Loading spinner */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #e91e63;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
