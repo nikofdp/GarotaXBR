@@ -2,6 +2,7 @@
 const API_BASE_URL = '/api';
 let isLoggedIn = false;
 let currentUser = null;
+let currentEditingId = null;
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
@@ -153,6 +154,8 @@ function showSection(sectionName) {
     }
 }
 
+// ===== ACOMPANHANTES =====
+
 // Carregar acompanhantes
 async function loadAcompanhantes() {
     try {
@@ -193,6 +196,142 @@ async function loadAcompanhantes() {
     }
 }
 
+// Mostrar modal para adicionar acompanhante
+async function showAddAcompanhanteModal() {
+    currentEditingId = null;
+    document.getElementById('acompanhanteModalTitle').textContent = 'Adicionar Acompanhante';
+    document.getElementById('acompanhanteForm').reset();
+    
+    // Carregar cidades no select
+    await loadCidadesSelect('acompanhanteCidade');
+    
+    const modal = new bootstrap.Modal(document.getElementById('acompanhanteModal'));
+    modal.show();
+}
+
+// Editar acompanhante
+async function editAcompanhante(id) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/acompanhantes/${id}`);
+        const acompanhante = await response.json();
+        
+        currentEditingId = id;
+        document.getElementById('acompanhanteModalTitle').textContent = 'Editar Acompanhante';
+        
+        // Preencher formulário
+        document.getElementById('acompanhanteId').value = acompanhante.id;
+        document.getElementById('acompanhanteNome').value = acompanhante.nome;
+        document.getElementById('acompanhanteIdade').value = acompanhante.idade;
+        document.getElementById('acompanhanteTelefone').value = acompanhante.telefone || '';
+        document.getElementById('acompanhanteWhatsapp').value = acompanhante.whatsapp || '';
+        document.getElementById('acompanhanteEndereco').value = acompanhante.endereco_aproximado || '';
+        document.getElementById('acompanhanteDescricao').value = acompanhante.descricao || '';
+        document.getElementById('acompanhanteInstagram').value = acompanhante.instagram || '';
+        document.getElementById('acompanhanteFacebook').value = acompanhante.facebook || '';
+        document.getElementById('acompanhanteBlog').value = acompanhante.blog || '';
+        document.getElementById('acompanhanteVerificada').checked = acompanhante.verificada;
+        
+        // Carregar cidades e selecionar a atual
+        await loadCidadesSelect('acompanhanteCidade');
+        document.getElementById('acompanhanteCidade').value = acompanhante.cidade_id;
+        
+        const modal = new bootstrap.Modal(document.getElementById('acompanhanteModal'));
+        modal.show();
+        
+    } catch (error) {
+        console.error('Erro ao carregar acompanhante:', error);
+        showAlert('Erro ao carregar dados da acompanhante', 'danger');
+    }
+}
+
+// Salvar acompanhante
+async function saveAcompanhante() {
+    const form = document.getElementById('acompanhanteForm');
+    const formData = new FormData(form);
+    
+    const data = {
+        nome: formData.get('nome'),
+        idade: parseInt(formData.get('idade')),
+        cidade_id: parseInt(formData.get('cidade_id')),
+        telefone: formData.get('telefone'),
+        whatsapp: formData.get('whatsapp'),
+        endereco_aproximado: formData.get('endereco_aproximado'),
+        descricao: formData.get('descricao'),
+        instagram: formData.get('instagram'),
+        facebook: formData.get('facebook'),
+        blog: formData.get('blog'),
+        verificada: document.getElementById('acompanhanteVerificada').checked
+    };
+    
+    try {
+        let response;
+        if (currentEditingId) {
+            // Editar
+            response = await fetch(`${API_BASE_URL}/acompanhantes/${currentEditingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        } else {
+            // Adicionar
+            response = await fetch(`${API_BASE_URL}/acompanhantes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        }
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showAlert(result.message, 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('acompanhanteModal'));
+            modal.hide();
+            loadAcompanhantes();
+            loadDashboardData(); // Atualizar contadores
+        } else {
+            showAlert(result.message, 'danger');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao salvar acompanhante:', error);
+        showAlert('Erro ao salvar acompanhante', 'danger');
+    }
+}
+
+// Excluir acompanhante
+async function deleteAcompanhante(id) {
+    if (!confirm('Tem certeza que deseja desativar esta acompanhante?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/acompanhantes/${id}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showAlert(result.message, 'success');
+            loadAcompanhantes();
+            loadDashboardData(); // Atualizar contadores
+        } else {
+            showAlert(result.message, 'danger');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao excluir acompanhante:', error);
+        showAlert('Erro ao excluir acompanhante', 'danger');
+    }
+}
+
+// ===== ESTADOS =====
+
 // Carregar estados
 async function loadEstados() {
     try {
@@ -228,6 +367,120 @@ async function loadEstados() {
     }
 }
 
+// Mostrar modal para adicionar estado
+function showAddEstadoModal() {
+    currentEditingId = null;
+    document.getElementById('estadoModalTitle').textContent = 'Adicionar Estado';
+    document.getElementById('estadoForm').reset();
+    
+    const modal = new bootstrap.Modal(document.getElementById('estadoModal'));
+    modal.show();
+}
+
+// Editar estado
+async function editEstado(id) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/estados/${id}`);
+        const estado = await response.json();
+        
+        currentEditingId = id;
+        document.getElementById('estadoModalTitle').textContent = 'Editar Estado';
+        
+        // Preencher formulário
+        document.getElementById('estadoId').value = estado.id;
+        document.getElementById('estadoNome').value = estado.nome;
+        document.getElementById('estadoSigla').value = estado.sigla;
+        document.getElementById('estadoRegiao').value = estado.regiao;
+        
+        const modal = new bootstrap.Modal(document.getElementById('estadoModal'));
+        modal.show();
+        
+    } catch (error) {
+        console.error('Erro ao carregar estado:', error);
+        showAlert('Erro ao carregar dados do estado', 'danger');
+    }
+}
+
+// Salvar estado
+async function saveEstado() {
+    const form = document.getElementById('estadoForm');
+    const formData = new FormData(form);
+    
+    const data = {
+        nome: formData.get('nome'),
+        sigla: formData.get('sigla').toUpperCase(),
+        regiao: formData.get('regiao')
+    };
+    
+    try {
+        let response;
+        if (currentEditingId) {
+            // Editar
+            response = await fetch(`${API_BASE_URL}/estados/${currentEditingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        } else {
+            // Adicionar
+            response = await fetch(`${API_BASE_URL}/estados`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        }
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showAlert(result.message, 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('estadoModal'));
+            modal.hide();
+            loadEstados();
+            loadDashboardData(); // Atualizar contadores
+        } else {
+            showAlert(result.message, 'danger');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao salvar estado:', error);
+        showAlert('Erro ao salvar estado', 'danger');
+    }
+}
+
+// Excluir estado
+async function deleteEstado(id) {
+    if (!confirm('Tem certeza que deseja excluir este estado?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/estados/${id}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showAlert(result.message, 'success');
+            loadEstados();
+            loadDashboardData(); // Atualizar contadores
+        } else {
+            showAlert(result.message, 'danger');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao excluir estado:', error);
+        showAlert('Erro ao excluir estado', 'danger');
+    }
+}
+
+// ===== CIDADES =====
+
 // Carregar cidades
 async function loadCidades() {
     try {
@@ -262,46 +515,180 @@ async function loadCidades() {
     }
 }
 
-// Funções de CRUD (placeholders)
-function showAddAcompanhanteModal() {
-    showAlert('Funcionalidade de adicionar acompanhante em desenvolvimento', 'info');
+// Mostrar modal para adicionar cidade
+async function showAddCidadeModal() {
+    currentEditingId = null;
+    document.getElementById('cidadeModalTitle').textContent = 'Adicionar Cidade';
+    document.getElementById('cidadeForm').reset();
+    
+    // Carregar estados no select
+    await loadEstadosSelect('cidadeEstado');
+    
+    const modal = new bootstrap.Modal(document.getElementById('cidadeModal'));
+    modal.show();
 }
 
-function editAcompanhante(id) {
-    showAlert(`Editar acompanhante ${id} - Funcionalidade em desenvolvimento`, 'info');
-}
-
-function deleteAcompanhante(id) {
-    if (confirm('Tem certeza que deseja excluir esta acompanhante?')) {
-        showAlert(`Excluir acompanhante ${id} - Funcionalidade em desenvolvimento`, 'info');
+// Editar cidade
+async function editCidade(id) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/cidades/${id}`);
+        const cidade = await response.json();
+        
+        currentEditingId = id;
+        document.getElementById('cidadeModalTitle').textContent = 'Editar Cidade';
+        
+        // Preencher formulário
+        document.getElementById('cidadeId').value = cidade.id;
+        document.getElementById('cidadeNome').value = cidade.nome;
+        
+        // Carregar estados e selecionar o atual
+        await loadEstadosSelect('cidadeEstado');
+        document.getElementById('cidadeEstado').value = cidade.estado_id;
+        
+        const modal = new bootstrap.Modal(document.getElementById('cidadeModal'));
+        modal.show();
+        
+    } catch (error) {
+        console.error('Erro ao carregar cidade:', error);
+        showAlert('Erro ao carregar dados da cidade', 'danger');
     }
 }
 
-function showAddEstadoModal() {
-    showAlert('Funcionalidade de adicionar estado em desenvolvimento', 'info');
-}
-
-function editEstado(id) {
-    showAlert(`Editar estado ${id} - Funcionalidade em desenvolvimento`, 'info');
-}
-
-function deleteEstado(id) {
-    if (confirm('Tem certeza que deseja excluir este estado?')) {
-        showAlert(`Excluir estado ${id} - Funcionalidade em desenvolvimento`, 'info');
+// Salvar cidade
+async function saveCidade() {
+    const form = document.getElementById('cidadeForm');
+    const formData = new FormData(form);
+    
+    const data = {
+        nome: formData.get('nome'),
+        estado_id: parseInt(formData.get('estado_id'))
+    };
+    
+    try {
+        let response;
+        if (currentEditingId) {
+            // Editar
+            response = await fetch(`${API_BASE_URL}/cidades/${currentEditingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        } else {
+            // Adicionar
+            response = await fetch(`${API_BASE_URL}/cidades`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+        }
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showAlert(result.message, 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('cidadeModal'));
+            modal.hide();
+            loadCidades();
+            loadDashboardData(); // Atualizar contadores
+        } else {
+            showAlert(result.message, 'danger');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao salvar cidade:', error);
+        showAlert('Erro ao salvar cidade', 'danger');
     }
 }
 
-function showAddCidadeModal() {
-    showAlert('Funcionalidade de adicionar cidade em desenvolvimento', 'info');
+// Excluir cidade
+async function deleteCidade(id) {
+    if (!confirm('Tem certeza que deseja excluir esta cidade?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/cidades/${id}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showAlert(result.message, 'success');
+            loadCidades();
+            loadDashboardData(); // Atualizar contadores
+        } else {
+            showAlert(result.message, 'danger');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao excluir cidade:', error);
+        showAlert('Erro ao excluir cidade', 'danger');
+    }
 }
 
-function editCidade(id) {
-    showAlert(`Editar cidade ${id} - Funcionalidade em desenvolvimento`, 'info');
+// ===== FUNÇÕES AUXILIARES =====
+
+// Carregar estados para select
+async function loadEstadosSelect(selectId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/estados`);
+        const estados = await response.json();
+        
+        const select = document.getElementById(selectId);
+        select.innerHTML = '<option value="">Selecione um estado</option>';
+        
+        estados.forEach(estado => {
+            const option = document.createElement('option');
+            option.value = estado.id;
+            option.textContent = `${estado.nome} (${estado.sigla})`;
+            select.appendChild(option);
+        });
+        
+    } catch (error) {
+        console.error('Erro ao carregar estados:', error);
+    }
 }
 
-function deleteCidade(id) {
-    if (confirm('Tem certeza que deseja excluir esta cidade?')) {
-        showAlert(`Excluir cidade ${id} - Funcionalidade em desenvolvimento`, 'info');
+// Carregar cidades para select
+async function loadCidadesSelect(selectId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/cidades`);
+        const cidades = await response.json();
+        
+        const select = document.getElementById(selectId);
+        select.innerHTML = '<option value="">Selecione uma cidade</option>';
+        
+        // Agrupar por estado
+        const cidadesPorEstado = {};
+        cidades.forEach(cidade => {
+            if (!cidadesPorEstado[cidade.estado_nome]) {
+                cidadesPorEstado[cidade.estado_nome] = [];
+            }
+            cidadesPorEstado[cidade.estado_nome].push(cidade);
+        });
+        
+        // Criar optgroups
+        Object.keys(cidadesPorEstado).sort().forEach(estadoNome => {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = estadoNome;
+            
+            cidadesPorEstado[estadoNome].forEach(cidade => {
+                const option = document.createElement('option');
+                option.value = cidade.id;
+                option.textContent = cidade.nome;
+                optgroup.appendChild(option);
+            });
+            
+            select.appendChild(optgroup);
+        });
+        
+    } catch (error) {
+        console.error('Erro ao carregar cidades:', error);
     }
 }
 

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anunciar - GarotaXBR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        .anunciar-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .form-section {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+            color: #6c757d;
+        }
+        
+        .step.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .step.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .benefits {
+            background: white;
+            padding: 60px 0;
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .alert-info {
+            border-left: 4px solid #667eea;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 25px;
+        }
+        
+        .btn-outline-primary:hover {
+            background: #667eea;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-heart"></i> GarotaXBR
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="anunciar.html">
+                            <i class="fas fa-plus-circle"></i> Anunciar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="anunciar-hero">
+        <div class="container">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-star"></i> Anuncie Conosco
+            </h1>
+            <p class="lead mb-4">
+                Cadastre-se na maior plataforma de acompanhantes do Brasil
+            </p>
+            <p class="mb-0">
+                Processo simples, rápido e seguro
+            </p>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-container">
+                        <!-- Step Indicator -->
+                        <div class="step-indicator">
+                            <div class="step active" id="step1">1</div>
+                            <div class="step" id="step2">2</div>
+                            <div class="step" id="step3">3</div>
+                        </div>
+
+                        <!-- Alert -->
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Importante:</strong> Todos os campos marcados com (*) são obrigatórios. 
+                            Seus dados serão analisados pela nossa equipe antes da publicação.
+                        </div>
+
+                        <!-- Form -->
+                        <form id="anunciarForm">
+                            <!-- Step 1: Dados Pessoais -->
+                            <div class="form-step active" id="formStep1">
+                                <h3 class="mb-4">
+                                    <i class="fas fa-user"></i> Dados Pessoais
+                                </h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="nome" class="form-label">Nome Artístico *</label>
+                                            <input type="text" class="form-control" id="nome" name="nome" required>
+                                            <div class="form-text">Nome que aparecerá no seu anúncio</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="idade" class="form-label">Idade *</label>
+                                            <input type="number" class="form-control" id="idade" name="idade" min="18" max="65" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="estado" class="form-label">Estado *</label>
+                                            <select class="form-control" id="estado" name="estado_id" required>
+                                                <option value="">Selecione seu estado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="cidade" class="form-label">Cidade *</label>
+                                            <select class="form-control" id="cidade" name="cidade_id" required>
+                                                <option value="">Primeiro selecione o estado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="endereco_aproximado" class="form-label">Região/Bairro de Atendimento</label>
+                                    <input type="text" class="form-control" id="endereco_aproximado" name="endereco_aproximado">
+                                    <div class="form-text">Ex: Centro, Zona Sul, etc. (não informe endereço completo)</div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                        Próximo <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Contato e Redes Sociais -->
+                            <div class="form-step" id="formStep2">
+                                <h3 class="mb-4">
+                                    <i class="fas fa-phone"></i> Contato e Redes Sociais
+                                </h3>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="telefone" class="form-label">Telefone</label>
+                                            <input type="tel" class="form-control" id="telefone" name="telefone">
+                                            <div class="form-text">Ex: (11) 99999-9999</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="whatsapp" class="form-label">WhatsApp *</label>
+                                            <input type="tel" class="form-control" id="whatsapp" name="whatsapp" required>
+                                            <div class="form-text">Principal meio de contato</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="instagram" class="form-label">Instagram</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">@</span>
+                                                <input type="text" class="form-control" id="instagram" name="instagram">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="facebook" class="form-label">Facebook</label>
+                                            <input type="text" class="form-control" id="facebook" name="facebook">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="blog" class="form-label">Site/Blog</label>
+                                            <input type="url" class="form-control" id="blog" name="blog">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-primary" onclick="prevStep(1)">
+                                        <i class="fas fa-arrow-left"></i> Anterior
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                        Próximo <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Descrição e Finalização -->
+                            <div class="form-step" id="formStep3">
+                                <h3 class="mb-4">
+                                    <i class="fas fa-edit"></i> Descrição e Finalização
+                                </h3>
+
+                                <div class="mb-3">
+                                    <label for="descricao" class="form-label">Descrição do Anúncio *</label>
+                                    <textarea class="form-control" id="descricao" name="descricao" rows="6" required></textarea>
+                                    <div class="form-text">
+                                        Descreva seus serviços, horários de atendimento, diferenciais, etc. 
+                                        Seja clara e objetiva.
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Atenção:</strong> Não inclua valores, práticas explícitas ou informações que violem nossos termos de uso.
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termos" required>
+                                        <label class="form-check-label" for="termos">
+                                            Aceito os <a href="#" target="_blank">termos de uso</a> e 
+                                            <a href="#" target="_blank">política de privacidade</a> *
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="maioridade" required>
+                                        <label class="form-check-label" for="maioridade">
+                                            Declaro que sou maior de 18 anos *
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-primary" onclick="prevStep(2)">
+                                        <i class="fas fa-arrow-left"></i> Anterior
+                                    </button>
+                                    <button type="submit" class="btn btn-success btn-lg">
+                                        <i class="fas fa-check"></i> Enviar Cadastro
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2>Por que anunciar conosco?</h2>
+                <p class="lead">Vantagens exclusivas para nossos anunciantes</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>Alta Visibilidade</h4>
+                        <p>Milhares de visualizações diárias em todo o Brasil</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Segurança</h4>
+                        <p>Plataforma segura com moderação de conteúdo</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4>Mobile Friendly</h4>
+                        <p>Site otimizado para todos os dispositivos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>GarotaXBR</h5>
+                    <p>A maior plataforma de acompanhantes do Brasil</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2024 GarotaXBR. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="anunciar-script.js"></script>
+</body>
+</html>
+

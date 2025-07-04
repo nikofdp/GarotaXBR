@@ -294,6 +294,188 @@
         </div>
     </div>
 
+    <!-- Modais para CRUD -->
+    
+    <!-- Modal Adicionar/Editar Acompanhante -->
+    <div class="modal fade" id="acompanhanteModal" tabindex="-1" aria-labelledby="acompanhanteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="acompanhanteModalLabel">
+                        <i class="fas fa-user-plus"></i> <span id="acompanhanteModalTitle">Adicionar Acompanhante</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="acompanhanteForm">
+                        <input type="hidden" id="acompanhanteId" name="id">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="acompanhanteNome" class="form-label">Nome *</label>
+                                    <input type="text" class="form-control" id="acompanhanteNome" name="nome" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="acompanhanteIdade" class="form-label">Idade *</label>
+                                    <input type="number" class="form-control" id="acompanhanteIdade" name="idade" min="18" max="65" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="acompanhanteCidade" class="form-label">Cidade *</label>
+                                    <select class="form-control" id="acompanhanteCidade" name="cidade_id" required>
+                                        <option value="">Selecione uma cidade</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="acompanhanteTelefone" class="form-label">Telefone</label>
+                                    <input type="text" class="form-control" id="acompanhanteTelefone" name="telefone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="acompanhanteWhatsapp" class="form-label">WhatsApp</label>
+                                    <input type="text" class="form-control" id="acompanhanteWhatsapp" name="whatsapp">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="acompanhanteEndereco" class="form-label">Endereço Aproximado</label>
+                                    <input type="text" class="form-control" id="acompanhanteEndereco" name="endereco_aproximado">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="acompanhanteDescricao" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="acompanhanteDescricao" name="descricao" rows="3"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="acompanhanteInstagram" class="form-label">Instagram</label>
+                                    <input type="text" class="form-control" id="acompanhanteInstagram" name="instagram">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="acompanhanteFacebook" class="form-label">Facebook</label>
+                                    <input type="text" class="form-control" id="acompanhanteFacebook" name="facebook">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="acompanhanteBlog" class="form-label">Blog</label>
+                                    <input type="text" class="form-control" id="acompanhanteBlog" name="blog">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="acompanhanteVerificada" name="verificada">
+                                <label class="form-check-label" for="acompanhanteVerificada">
+                                    Verificada
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAcompanhante()">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar/Editar Estado -->
+    <div class="modal fade" id="estadoModal" tabindex="-1" aria-labelledby="estadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="estadoModalLabel">
+                        <i class="fas fa-map-plus"></i> <span id="estadoModalTitle">Adicionar Estado</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="estadoForm">
+                        <input type="hidden" id="estadoId" name="id">
+                        <div class="mb-3">
+                            <label for="estadoNome" class="form-label">Nome *</label>
+                            <input type="text" class="form-control" id="estadoNome" name="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="estadoSigla" class="form-label">Sigla *</label>
+                            <input type="text" class="form-control" id="estadoSigla" name="sigla" maxlength="2" required style="text-transform: uppercase;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="estadoRegiao" class="form-label">Região *</label>
+                            <select class="form-control" id="estadoRegiao" name="regiao" required>
+                                <option value="">Selecione uma região</option>
+                                <option value="Norte">Norte</option>
+                                <option value="Nordeste">Nordeste</option>
+                                <option value="Centro-Oeste">Centro-Oeste</option>
+                                <option value="Sudeste">Sudeste</option>
+                                <option value="Sul">Sul</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEstado()">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar/Editar Cidade -->
+    <div class="modal fade" id="cidadeModal" tabindex="-1" aria-labelledby="cidadeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cidadeModalLabel">
+                        <i class="fas fa-city"></i> <span id="cidadeModalTitle">Adicionar Cidade</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="cidadeForm">
+                        <input type="hidden" id="cidadeId" name="id">
+                        <div class="mb-3">
+                            <label for="cidadeNome" class="form-label">Nome *</label>
+                            <input type="text" class="form-control" id="cidadeNome" name="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cidadeEstado" class="form-label">Estado *</label>
+                            <select class="form-control" id="cidadeEstado" name="estado_id" required>
+                                <option value="">Selecione um estado</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveCidade()">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin-script.js"></script>
 </body>
